@@ -1,15 +1,19 @@
 #pragma once
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h> 
 #include <sys/socket.h>
+#include <netinet/in.h>
 
 class ISocket
 {
 public:
-	struct SsocketConfig
-	{
-		int port, sockFD;
-		struct sockaddr_in serverAddr;
-	};
+	void Setup( sockaddr_in serveAd ) { mServerAdd = serveAd; };
+	virtual void SocketSetup();
+protected:
 
-	virtual void Setup(SsocketConfig cf);
+	sockaddr_in mServerAdd;
 };
 

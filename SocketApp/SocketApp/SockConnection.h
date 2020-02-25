@@ -35,6 +35,7 @@ public:
 	SockConnection(int sockFD);
 	~SockConnection();
 
+	void StartListioning();
 	void Close();
 	int Send(void* data);
 	void OnReceive(char* data, int size);

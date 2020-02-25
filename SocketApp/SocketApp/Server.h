@@ -16,7 +16,7 @@ class Server
 	void ReceiveData(char* data, size_t size);
 	void ReceiveConnection(int connection);
 
-	void CreateConnection(int connection);
+	SockConnection* CreateConnection(int connection);
 
 
 
@@ -24,8 +24,8 @@ public:
 	Server();
 	~Server();
 
-	static bool OnReceiveConnection(Server* caller, int connection);
-	static void OnReceiveData(Server* caller, char* data, size_t size);
+	static bool OnReceiveConnection(void* caller, int connection);
+	static void OnReceiveData(void* caller, char* data, size_t size);
 
 	
 	void InitServer();

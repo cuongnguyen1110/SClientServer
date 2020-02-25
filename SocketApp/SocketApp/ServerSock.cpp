@@ -46,12 +46,18 @@ void ServerSock::ListioningLoop()
 {
 	while (mListioningLoopRunning)
 	{
-		//int newConnection = accect(sock);
-		// if(newConnection < 0) -> connection error
-		//send message. [IMPORTANCE TASK]
-
-		int fakeConnection = -1;
-		OnClientConnected(fakeConnection);
+ 		socklen_t clilen;
+		struct sockaddr_in cli_addr;
+		clilen = sizeof(cli_addr);
+     	int clientSockfd = accept(mServerSockfd, (struct sockaddr *) &cli_addr, &clilen);
+		if (clientSockfd < 0)
+		{
+			printf("ERROR!!! error on accept: %d", cli_addr.sin_addr);
+		}
+		else
+		{
+			OnClientConnected(clientSockfd);
+		}
 	}
 
 	// close server socket
@@ -95,6 +101,23 @@ void ServerSock::RegisterConnectionEvent(void* caller, TCallback funtor)
 {
 	sConnectionCallback c(caller, funtor);
 	mListCallback.push_back(c);
+}
+
+
+void ServerSock::SocketSetup()
+{
+	mServerSockfd = socket(AF_INET, SOCK_STREAM, 0);
+	if (mServerSockfd < 0) 
+	{
+		printf("ERROR opening socket");
+	}
+
+	if (bind(mServerSockfd, (struct sockaddr *) &(mServerAdd),sizeof(mServerAdd)) < 0) 
+	{
+		printf("ERROR!!!: Fail to bind socket");
+	}
+    
+     listen(mServerSockfd,5);
 }
 
 

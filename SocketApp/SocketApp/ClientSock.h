@@ -4,10 +4,15 @@
 class ClientSock :
 	public ISocket
 {
-	void Setup(ISocket::SsocketConfig cf);
-	void ClientSetup(); // specific for client
+
+public:
+
+	void SocketSetup();
 
 	int Connect();
+
+private:
+	int mClientSockfd;
 
 };
 

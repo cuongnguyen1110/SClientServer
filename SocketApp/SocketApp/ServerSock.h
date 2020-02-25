@@ -10,14 +10,19 @@ class ServerSock :
 	public ISocket
 {
 public:
-	void Setup(ISocket::SsocketConfig cf);
-	void ServerSetup(); // specific for client
+	virtual void SocketSetup();
 
 	void StartListen(); // start a thread to listion to client.
 
+	typedef bool(*TCallback) (void* caller, int connection );
+
+	void RegisterConnectionEvent(void* caller, TCallback funtor);
+
 private:
 
-	typedef bool(*TCallback) (void* caller, int connection );
+	int mServerSockfd;
+
+
 
 	/*int(*functor(char* param1, float param2)) ;*/
 	std::thread* mListioningThread;
@@ -26,7 +31,6 @@ private:
 	std::atomic<bool> mMainLoopRunning;
 
 	void OnClientConnected(int clientSockFD);
-	void RegisterConnectionEvent(void* caller, TCallback funtor);
 	void ListioningLoop(); /// while(true) { accect }
 	void MainLoop();// 
 
