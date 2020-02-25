@@ -8,7 +8,7 @@
 class SockConnection
 {
 	int mSocketFD;
-	std::thread mListioningThread;
+	std::thread* mListioningThread;
 	std::mutex mMutex;
 	std::atomic<bool> mListioningRunning;
 
