@@ -2,6 +2,17 @@
 
 #include <netdb.h> 
 
+
+ClientSock::ClientSock()
+{
+
+}
+
+ClientSock::~ClientSock()
+{
+    
+}
+
 void ClientSock::SocketSetup()
 {
     mClientSockfd = socket(AF_INET, SOCK_STREAM, 0);

@@ -6,7 +6,7 @@ SockConnection::SockConnection(int sockFD)
 	, mListioningRunning(false)
 {
 	// start listioning
-	mListioningThread = new std::thread(&SockConnection::ListioningThreadLoop);
+	mListioningThread = new std::thread(&SockConnection::ListioningThreadLoop, this);
 }
 
 SockConnection::~SockConnection()

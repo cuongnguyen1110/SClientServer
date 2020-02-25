@@ -6,7 +6,8 @@ class ClientSock :
 {
 
 public:
-
+	ClientSock();
+	virtual ~ClientSock();
 	void SocketSetup();
 
 	int Connect();

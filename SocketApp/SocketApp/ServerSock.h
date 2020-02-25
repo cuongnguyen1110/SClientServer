@@ -1,10 +1,10 @@
 #pragma once
 #include "ISocket.h"
 
-#include <vector>;
-#include <thread>;
+#include <vector>
+#include <thread>
 #include <atomic>
-#include <mutex>;
+#include <mutex>
 
 class ServerSock :
 	public ISocket
@@ -18,6 +18,8 @@ public:
 
 	void RegisterConnectionEvent(void* caller, TCallback funtor);
 
+	ServerSock();
+	virtual ~ServerSock();
 private:
 
 	int mServerSockfd;

@@ -11,7 +11,8 @@ class ISocket
 {
 public:
 	void Setup( sockaddr_in serveAd ) { mServerAdd = serveAd; };
-	virtual void SocketSetup();
+	virtual void SocketSetup(){};
+	virtual ~ ISocket(){};
 protected:
 
 	sockaddr_in mServerAdd;

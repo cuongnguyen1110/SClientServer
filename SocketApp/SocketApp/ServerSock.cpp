@@ -33,13 +33,13 @@ ServerSock::ServerSock()
 	, mMainLoopRunning(false)
 {
 	mMainLoopRunning = true;
-	mMainThread = new std::thread(&ServerSock::MainLoop); // start main thread
+	mMainThread = new std::thread(&ServerSock::MainLoop, this); // start main thread
 }
 
 void ServerSock::StartListen()
 {
 	mListioningLoopRunning = true;
-	mListioningThread = new std::thread(&ServerSock::ListioningLoop);
+	mListioningThread = new std::thread(&ServerSock::ListioningLoop, this);
 }
 
 void ServerSock::ListioningLoop()
