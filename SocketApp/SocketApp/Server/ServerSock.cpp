@@ -2,6 +2,10 @@
 
 ServerSock::~ServerSock()
 {
+	
+	shutdown(mServerSockfd, SHUT_RD);
+	close(mServerSockfd);
+	
 	mListioningLoopRunning = false;
 	if (mListioningThread != nullptr)
 	{
@@ -38,17 +42,21 @@ ServerSock::ServerSock()
 
 void ServerSock::StartListen()
 {
+	printf("ServerSoc StartListen ------ \n");
 	mListioningLoopRunning = true;
 	mListioningThread = new std::thread(&ServerSock::ListioningLoop, this);
+	
 }
 
 void ServerSock::ListioningLoop()
 {
+	printf("ServerSoc ListioningLoop ---- \n");
 	while (mListioningLoopRunning)
 	{
  		socklen_t clilen;
 		struct sockaddr_in cli_addr;
 		clilen = sizeof(cli_addr);
+		printf("ServerSoc waiting for connections \n");
      	int clientSockfd = accept(mServerSockfd, (struct sockaddr *) &cli_addr, &clilen);
 		if (clientSockfd < 0)
 		{
@@ -118,6 +126,8 @@ void ServerSock::SocketSetup()
 	}
     
      listen(mServerSockfd,5);
+
+	 printf ("ServerSock listening at port: %d \n", mServerAdd.sin_port);
 }
 
 

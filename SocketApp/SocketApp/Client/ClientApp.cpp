@@ -2,10 +2,32 @@
 //
 
 #include <iostream>
-
+#include "Client.h"
 int main()
 {
-    std::cout << "Hello World!\n";
+    std::cout << "Welcome to 5s Client\n";
+    Client* mClient = new Client();
+
+    bool run = true;
+    while(run)
+    {
+        std::string input;
+        std::cout<<"Command:";
+        std::cin>>input;
+        if(input == std::string("quit") )
+        {
+            std::cout<<"let turn off the server \n";
+            run = false;
+        }
+        std::cout<<"You entered: "<<input<<"\n";
+    }
+    
+    delete mClient;
+
+    std::cout<<"Server shut down \n";
+    
+    return 0;
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
