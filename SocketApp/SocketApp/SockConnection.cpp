@@ -5,8 +5,7 @@ SockConnection::SockConnection(int sockFD)
 	, mListioningThread(nullptr)
 	, mListioningRunning(false)
 {
-	// start listioning
-	mListioningThread = new std::thread(&SockConnection::ListioningThreadLoop, this);
+	
 }
 
 SockConnection::~SockConnection()
@@ -21,6 +20,16 @@ SockConnection::~SockConnection()
 		}
 
 		delete mListioningThread;
+	}
+}
+
+// NOTE: this is not a thread-safe function, dont call this function in multithread.
+void SockConnection::StartListioning()
+{
+	if (mListioningThread == nullptr)
+	{
+		// start listioning
+		mListioningThread = new std::thread(&SockConnection::ListioningThreadLoop, this);
 	}
 }
 

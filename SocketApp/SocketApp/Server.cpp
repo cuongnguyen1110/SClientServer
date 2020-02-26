@@ -13,6 +13,13 @@ Server::~Server()
     {
         delete mSocket;
     }
+
+	for (SockConnection* c : mListConnect)
+	{
+		delete c;
+	}
+
+	mListConnect.clear();
 }
 
 void Server::InitServer()
@@ -70,4 +77,11 @@ void Server::ReceiveData(char* data, size_t size)
 
     printf("Server::ReceiveData -- %s", buffer);
     // [TODO] handle client data
+}
+
+SockConnection* Server::CreateConnection(int connection)
+{
+	SockConnection* c = new SockConnection(connection);
+
+	return c;
 }
