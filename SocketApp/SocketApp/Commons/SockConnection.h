@@ -37,7 +37,7 @@ public:
 
 	void StartListioning();
 	void Close();
-	int Send(void* data);
+	int Send(void* data, int size);
 	void OnReceive(char* data, int size);
 
 	void RegisterRecieveData(void* caller, TCallback callback);

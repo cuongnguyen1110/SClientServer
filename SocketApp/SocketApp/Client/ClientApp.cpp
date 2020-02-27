@@ -6,7 +6,20 @@
 int main()
 {
     std::cout << "Welcome to 5s Client\n";
+	
     Client* mClient = new Client();
+	bool connected = mClient->ConnectToServer();
+	if (!connected)
+	{
+		printf("ERROR: Fail to connect server. EXIT! \n");
+		exit(-1);
+	}
+	else
+	{
+		printf("Connect server successfull \n");
+	}
+
+	std::cout << "Enter 'quit' to quit application \n";
 
     bool run = true;
     while(run)
@@ -16,10 +29,15 @@ int main()
         std::cin>>input;
         if(input == std::string("quit") )
         {
-            std::cout<<"let turn off the server \n";
             run = false;
         }
-        std::cout<<"You entered: "<<input<<"\n";
+		else
+		{
+			std::cout << "Sending message to Server: " << input << "\n";
+			int size = input.size();
+			mClient->SendToServer((char*)input.data(), size);
+		}
+        
     }
     
     delete mClient;

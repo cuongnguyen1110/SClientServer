@@ -13,23 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="SocketApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ClientSock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerSock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Server.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SockConnection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <Filter Include="Source Files\Commons">
+      <UniqueIdentifier>{17f0612f-a72a-4e55-ad1d-233bcebbd1b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Client">
+      <UniqueIdentifier>{145daf26-c2c1-48e1-ab8a-ede689b37913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Server">
+      <UniqueIdentifier>{ebc2d3b8-e82d-4f94-9de6-516bbc69e914}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ISocket.h">
@@ -47,5 +39,59 @@
     <ClInclude Include="SockConnection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Commons\ISocket.h">
+      <Filter>Source Files\Commons</Filter>
+    </ClInclude>
+    <ClInclude Include="Commons\SockConnection.h">
+      <Filter>Source Files\Commons</Filter>
+    </ClInclude>
+    <ClInclude Include="Client\Client.h">
+      <Filter>Source Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Client\ClientSock.h">
+      <Filter>Source Files\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\Server.h">
+      <Filter>Source Files\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\ServerSock.h">
+      <Filter>Source Files\Server</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Commons\SockConnection.cpp">
+      <Filter>Source Files\Commons</Filter>
+    </ClCompile>
+    <ClCompile Include="Client\Client.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Client\ClientApp.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Client\ClientSock.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\Server.cpp">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\ServerApp.cpp">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\ServerSock.cpp">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Client\makefile">
+      <Filter>Source Files\Client</Filter>
+    </None>
+    <None Include="Server\makefile">
+      <Filter>Source Files\Server</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Server\SocketApp.o">
+      <Filter>Source Files\Server</Filter>
+    </Object>
   </ItemGroup>
 </Project>

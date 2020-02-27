@@ -3,8 +3,9 @@
 
 Server::Server()
     :mSocket(nullptr)
+	, mMainThread(nullptr)
 {
-
+	mMainThreadRunning = false;
 }
 
 Server::~Server()
@@ -20,6 +21,17 @@ Server::~Server()
 	}
 
 	mListConnect.clear();
+
+	mMainThreadRunning.exchange(false);
+	if (mMainThread != nullptr)
+	{
+		if (mMainThread->joinable())
+		{
+			mMainThread->join();
+		}
+
+		delete mMainThread;
+	}
 }
 
 void Server::InitServer()
@@ -39,6 +51,49 @@ void Server::InitServer()
     
     static_cast<ServerSock*>(mSocket)->StartListen();
 
+	if (mMainThread != nullptr)
+	{
+		mMainThreadRunning.exchange(true);
+		mMainThread = new std::thread(&Server::MainLoop, this);
+	}
+
+}
+
+void Server::MainLoop()
+{
+	while (mMainThreadRunning)
+	{
+		std::vector<std::string> vecData;
+		mMutext.lock();
+		int size = mClientMessages.size();
+		if (size > 0)
+		{
+			for (int i = 0; i < size; i++)
+			{
+				vecData.push_back(mClientMessages[i]);
+			}
+		}
+		mMutext.unlock();
+
+		if (!vecData.empty())
+		{
+			printf("[Serer] Receive messages from clients: \n");
+			for (const std::string& data : vecData)
+			{
+				printf("-- %s", data.c_str());
+			}
+
+			SaveDataToDB(vecData);
+		}
+	}
+}
+
+void Server::SaveDataToDB(std::vector<std::string> data)
+{
+	for (std::string s : data)
+	{
+		mServerDatabase.push_back(s);
+	}
 }
 
 bool Server::OnReceiveConnection(void* caller, int connection)

@@ -38,8 +38,17 @@ void SockConnection::ListioningThreadLoop()
 {
 	while (mListioningRunning)
 	{
-		// read()
-		//OnRecieve()
+		char buffer[1024];
+		int result = read(mSocketFD, buffer, 1024);
+		if (result < 0)
+		{
+			printf("[Client] Fail to read data");
+		}
+		else
+		{
+			printf("[Client] successful to read data");
+			OnReceive(buffer, result);
+		}
 	}
 }
 
@@ -53,12 +62,22 @@ void SockConnection::OnReceive(char* data, int size)
 
 void SockConnection::Close()
 {
-
+	shutdown(mSocketFD, SHUT_RD);
+	close(mSocketFD);
 }
 
-int SockConnection::Send(void* data)
+int SockConnection::Send(void* data, int size)
 {
-	return -1;
+	int result = write(mSocketFD, data, size);
+	if (result < 0)
+	{
+		printf("[Client] ERROR writing to socket");
+	}
+	else
+	{
+		printf("[Client] Success writing to socket: %s", data);
+	}
+		
 }
 
 

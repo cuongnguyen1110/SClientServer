@@ -5,6 +5,7 @@
 #include <vector>
 #include <mutex>
 #include <atomic>
+#include <thread>
 
 class Server
 {
@@ -18,8 +19,15 @@ class Server
 
 	SockConnection* CreateConnection(int connection);
 
+	std::thread* mMainThread;
+	std::mutex mMutext;
+	std::atomic<bool> mMainThreadRunning;
+	std::vector<std::string> mClientMessages;
+	std::vector<std::string> mServerDatabase;
 
+	void SaveDataToDB(std::vector<std::string> data);
 
+	void MainLoop();
 public:
 	Server();
 	~Server();
@@ -27,7 +35,7 @@ public:
 	static bool OnReceiveConnection(void* caller, int connection);
 	static void OnReceiveData(void* caller, char* data, size_t size);
 
-	
+	void DumpDB(); // may be just print all data, need a mutex
 	void InitServer();
 	// connection
 };

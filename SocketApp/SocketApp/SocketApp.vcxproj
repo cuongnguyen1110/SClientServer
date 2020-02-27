@@ -151,18 +151,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ClientSock.cpp" />
-    <ClCompile Include="Server.cpp" />
-    <ClCompile Include="ServerSock.cpp" />
-    <ClCompile Include="SockConnection.cpp" />
-    <ClCompile Include="SocketApp.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="ClientSock.h" />
+    <ClInclude Include="Client\Client.h" />
+    <ClInclude Include="Client\ClientSock.h" />
+    <ClInclude Include="Commons\ISocket.h" />
+    <ClInclude Include="Commons\SockConnection.h" />
     <ClInclude Include="ISocket.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="ServerSock.h" />
+    <ClInclude Include="Server\Server.h" />
+    <ClInclude Include="Server\ServerSock.h" />
     <ClInclude Include="SockConnection.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Client\Client.cpp" />
+    <ClCompile Include="Client\ClientApp.cpp" />
+    <ClCompile Include="Client\ClientSock.cpp" />
+    <ClCompile Include="Commons\SockConnection.cpp" />
+    <ClCompile Include="Server\Server.cpp" />
+    <ClCompile Include="Server\ServerApp.cpp" />
+    <ClCompile Include="Server\ServerSock.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Client\makefile" />
+    <None Include="Server\makefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Server\SocketApp.o" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
