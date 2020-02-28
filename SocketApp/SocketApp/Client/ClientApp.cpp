@@ -26,7 +26,7 @@ int main()
     {
         std::string input;
         std::cout<<"Command:";
-        std::cin>>input;
+        getline(std::cin, input);
         if(input == std::string("quit") )
         {
             run = false;

@@ -42,7 +42,6 @@ ServerSock::ServerSock()
 
 void ServerSock::StartListen()
 {
-	printf("ServerSoc StartListen ------ \n");
 	mListioningLoopRunning = true;
 	mListioningThread = new std::thread(&ServerSock::ListioningLoop, this);
 	
@@ -50,13 +49,11 @@ void ServerSock::StartListen()
 
 void ServerSock::ListioningLoop()
 {
-	printf("ServerSoc ListioningLoop ---- \n");
 	while (mListioningLoopRunning)
 	{
  		socklen_t clilen;
 		struct sockaddr_in cli_addr;
 		clilen = sizeof(cli_addr);
-		printf("ServerSoc waiting for connections \n");
      	int clientSockfd = accept(mServerSockfd, (struct sockaddr *) &cli_addr, &clilen);
 		if (clientSockfd < 0)
 		{
@@ -67,9 +64,6 @@ void ServerSock::ListioningLoop()
 			OnClientConnected(clientSockfd);
 		}
 	}
-
-	// close server socket
-	// notify socket server die
 }
 
 void ServerSock::OnClientConnected(int clientSockFD)
@@ -88,8 +82,10 @@ void ServerSock::MainLoop()
 		mInternalMutex.lock();
 		if (!mListConnection.empty())
 		{
-			data.resize(mListConnection.size());
-			memcpy(&data[0], &mListConnection[0], mListConnection.size());
+			for(int& c : mListConnection)
+			{
+				data.push_back(c);
+			}
 			mListConnection.clear();
 		}
 		mInternalMutex.unlock();

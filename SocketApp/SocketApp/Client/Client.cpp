@@ -54,7 +54,6 @@ void Client::SendToServer(char* data, int size)
 	{
 		mConnection->Send(data, size);
 	}
-    printf("Client try to send data \n");
 }
 
 void Client::OnReceiveData(void* caller, char* data, size_t size)

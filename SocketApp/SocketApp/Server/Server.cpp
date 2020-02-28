@@ -51,7 +51,7 @@ void Server::InitServer()
     
     static_cast<ServerSock*>(mSocket)->StartListen();
 
-	if (mMainThread != nullptr)
+	if (mMainThread == nullptr)
 	{
 		mMainThreadRunning.exchange(true);
 		mMainThread = new std::thread(&Server::MainLoop, this);
@@ -63,6 +63,7 @@ void Server::MainLoop()
 {
 	while (mMainThreadRunning)
 	{
+		
 		std::vector<std::string> vecData;
 		mMutext.lock();
 		int size = mClientMessages.size();
@@ -72,6 +73,7 @@ void Server::MainLoop()
 			{
 				vecData.push_back(mClientMessages[i]);
 			}
+			mClientMessages.clear();
 		}
 		mMutext.unlock();
 
@@ -82,7 +84,7 @@ void Server::MainLoop()
 			{
 				printf("-- %s", data.c_str());
 			}
-
+			printf("\n");
 			SaveDataToDB(vecData);
 		}
 	}
@@ -113,6 +115,7 @@ bool Server::OnReceiveConnection(void* caller, int connection)
 
 void Server:: ReceiveConnection(int connection)
 {
+	printf("Server::ReceiveConnection \n");
     SockConnection* connectObj = CreateConnection(connection);
     connectObj->RegisterRecieveData(this,&Server::OnReceiveData);
     connectObj->StartListioning();
@@ -121,17 +124,18 @@ void Server:: ReceiveConnection(int connection)
 
 void Server::OnReceiveData(void* caller, char* data, size_t size)
 {
+	printf("Server::OnReceiveData size = %d \n", size);
     Server* server = static_cast<Server*>(caller);
     server->ReceiveData(data, size);
 }
 
 void Server::ReceiveData(char* data, size_t size)
 {
-    char buffer[size];
-    memcpy(&buffer[0],&data,size);
-
-    printf("Server::ReceiveData -- %s", buffer);
-    // [TODO] handle client data
+	std::string msg(data,size);
+	mMutext.lock();
+	mClientMessages.push_back(msg);
+	mMutext.unlock();
+    
 }
 
 SockConnection* Server::CreateConnection(int connection)

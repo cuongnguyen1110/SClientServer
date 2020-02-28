@@ -1,4 +1,11 @@
 #include "SockConnection.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h> 
+#include <sys/socket.h>
+#include <netinet/in.h>
 
 SockConnection::SockConnection(int sockFD)
 	:mSocketFD(sockFD)
@@ -26,6 +33,7 @@ SockConnection::~SockConnection()
 // NOTE: this is not a thread-safe function, dont call this function in multithread.
 void SockConnection::StartListioning()
 {
+	mListioningRunning.exchange(true);
 	if (mListioningThread == nullptr)
 	{
 		// start listioning
@@ -39,14 +47,21 @@ void SockConnection::ListioningThreadLoop()
 	while (mListioningRunning)
 	{
 		char buffer[1024];
+		bzero((char*) &(buffer[0]),1024);
 		int result = read(mSocketFD, buffer, 1024);
 		if (result < 0)
 		{
 			printf("[Client] Fail to read data");
 		}
+		else if( result == 0)
+		{
+			printf("-----------Connection has Closed------------\n");
+			Close();
+			mListioningRunning.exchange(false);
+		}
 		else
 		{
-			printf("[Client] successful to read data");
+			//printf("successful to read data \n");
 			OnReceive(buffer, result);
 		}
 	}
@@ -71,11 +86,11 @@ int SockConnection::Send(void* data, int size)
 	int result = write(mSocketFD, data, size);
 	if (result < 0)
 	{
-		printf("[Client] ERROR writing to socket");
+		printf("ERROR writing to socket");
 	}
 	else
 	{
-		printf("[Client] Success writing to socket: %s", data);
+		//printf("[SockConnection] Success writing to socket: %s \n", data);
 	}
 		
 }
